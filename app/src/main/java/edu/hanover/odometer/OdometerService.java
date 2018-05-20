@@ -20,8 +20,7 @@ public class OdometerService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+        return binder;
     }
     public class OdometerBinder extends Binder {
         OdometerService getOdometer() {
@@ -47,6 +46,12 @@ public class OdometerService extends Service {
             @Override
             public void onStatusChanged(String arg0, int arg1, Bundle bundle) {}
         };
+        LocationManager locManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, listener);
     }
+    public double getMiles() {
+        return this.distanceInMeters / 1609.344;
+    }
+
 
 }
